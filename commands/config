@@ -1,0 +1,9 @@
+echo "overlays = ${overlays}"
+echo "stage = ${stage}"
+echo "kubectl = ${kubectl}"
+echo "kustomize = ${kustomize}"
+echo "yq = ${yq}"
+echo "app = ${app}"
+echo "namespace = ${namespace}"
+echo "image = ${image}"
+

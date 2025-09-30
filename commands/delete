@@ -1,0 +1,3 @@
+${kustomize} | ${kubectl} delete -f - --ignore-not-found
+docker rmi -f "${image}" &> /dev/null
+

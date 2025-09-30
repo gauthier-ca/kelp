@@ -1,0 +1,5 @@
+if [[ -f Dockerfile ]]
+then
+    #docker build -t ${image} . --progress=plain --no-cache
+    docker build -t ${image} .
+fi

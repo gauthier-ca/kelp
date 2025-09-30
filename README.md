@@ -1,0 +1,73 @@
+# kelp
+
+A collection of tiny shell scripts to build and deploy apps to k8s clusters using kustomize manifests. Override or extend the default commands as needed.
+
+## Prerequisites
+To start you need an app repository containing a Dockerfile and a kustomize manifest. You also need a kubernetes cluster available, e.g. Docker Desktop, and docker, kubectl and GNU make installed.
+
+This tool uses [`yq`](https://github.com/mikefarah/yq). The docker version of is used by default. This ensures the tool runs everywhere but means slower runs. You can set `yq=yq` in your environment to use a faster local yq is you have it installed.
+
+## Installation
+
+To install clone this repository then add it to your path:
+
+```
+$ kelp install
+export PATH="/path/to/kelp:$PATH"
+export yq=yq
+```
+Install in the current shell with `eval $(kelp install)` or permanently in your `.bashrc` with `kelp install >>~/.bashrc`.
+
+## Usage
+In your own app repository, which must contain a a Dockerfile and a kustomization file, run:
+
+```
+kelp [command ...]
+```
+
+If no command is specified, `kelp` defaults to `build run`.
+`kelp` looks up the commands to run in either `./.kelp` in the current directory, or in the `kelp/commands` repository. When a command is found, it is sourced within the `kelp` script. Commands depend on the kelp context and cannot be executed standalone.
+
+## Commands
+
+The following commands are available:
+
+<dl>
+  <dt>apply</dt>
+  <dd>Apply the k8s manifest.</dd>
+  <dt>build</dt>
+  <dd>Build the image.</dd>
+  <dt>config</dt>
+  <dd>Dump the config variables.</dd>
+  <dt>delete</dt>
+  <dd>Remove all non persistent resources and images.</dd>
+  <dt>login</dt>
+  <dd>Login to the registry.</dd>
+  <dt>push</dt>
+  <dd>Push to the registry.</dd>
+  <dt>repo</dt>
+  <dd>Create the initial ECR repo (for AWS ECR).</dd>
+  <dt>test</dt>
+  <dd>Run tests.</dd>
+  <dt>up</dt>
+  <dd>Apply, then test.</dd>
+</dl>
+
+Persistent resources are defined by adding `.metadata.labels.delete: persist` in their manifest.
+
+## Variables
+
+The following environment variables can be set:
+
+<dl>
+  <dt>overlays</dt>
+  <dd>Set the path to the kustomize overlays directory. Defaults to `k8s/overlays`.</dd>
+  <dt>stage</dt>
+  <dd>Specify a specific overlay. Defaults to dev.</dd>
+  <dt>yq</dt>
+  <dd>Set the `yq` binary. Use this for faster runs if you have it installed.</dd>
+</dl>
+
+## Known issues
+
+The targets currently assume a single image is to be built. This image name is looked up the the first Deployment, Job or CronJob object of the manifest.

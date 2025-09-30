@@ -1,0 +1,2 @@
+echo "export PATH=\"${scriptdir}:\$PATH\""
+echo "export yq=yq"

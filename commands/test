@@ -1,0 +1,6 @@
+# Test recipes are application specific.
+# Below is an examples using npm test.
+
+# pod=$(${kubectl} get pod -l app=${app} -n ${namespace} | grep -vE "Terminating|Completed" | tail -n +2 | cut -d' ' -f1)
+# ${kubectl} wait --for=condition=Ready pod/${pod} -n ${namespace}
+# ${kubectl} exec -it ${pod} -n ${namespace} -- npm test
