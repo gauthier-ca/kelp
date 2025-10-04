@@ -47,14 +47,20 @@ commands="${@:-build up}"
 
 if [[ -f "${configdir}/${kelpfile}" ]]
 then
-    # Top level directory: process the resources from the kelpfile
-    for dir in $(cat "${configdir}/${kelpfile}" | ${yq} '.resources[]')
+    # Loop over all the yaml files in the config dir
+    # This allows for custom module declarations in case kelp.yaml is generated
+    for configfile in ${configdir}/*.yaml
     do
-        echo "$(tput bold)$(tput setaf 6)${dir}$(tput sgr0)"
-        cd ${dir}
-        configure_commands
-        execute_commands ${commands}
-        cd - >/dev/null
+        echo $configfile
+        # Top level directory: process the resources from the kelpfile
+        for dir in $(cat ${configfile} | ${yq} '.resources[]')
+        do
+            echo "$(tput bold)$(tput setaf 6)${dir}$(tput sgr0)"
+            cd ${dir}
+            configure_commands
+            execute_commands ${commands}
+            cd - >/dev/null
+        done
     done
 else
     # Regular directory: run the kelp command

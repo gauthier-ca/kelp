@@ -1,0 +1,9 @@
+# Sample kelp.yaml
+# Add this to ./kelp/ to process subdirectories from a top level
+apiVersion: kelp.config.kelp.io/v1beta1
+kind: Kelp
+
+# Declare directories here
+resources:
+  - postgres
+  - grafana

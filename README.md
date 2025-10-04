@@ -26,7 +26,9 @@ kelp [command ...]
 ```
 
 If no command is specified, `kelp` defaults to `build run`.
-`kelp` looks up the commands to run in either `./.kelp` in the current directory, or in the `kelp/commands` repository. When a command is found, it is sourced within the `kelp` script. Commands depend on the kelp context and cannot be executed standalone.
+`kelp` looks up the commands to run under either `.kelp/` in the current directory, or under the `kelp/commands` repository. When a command is found, it is sourced within the `kelp` script. Commands depend on the kelp context and cannot be executed standalone.
+
+If a `.kelp/kelp.yaml` file exists, `kelp` considers the directory a top-level directory. It then looks up subdirectories in the `.resources` field of `kelp.yaml` and invokes commands on each of them. Furthermore, if other yaml files are present under `.kelp/` they are processed in the same way, and in alphabetical order. This is useful to declare static lists of repositories in cases where `kelp.yaml` is generated.
 
 ## Commands
 
