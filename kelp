@@ -5,11 +5,16 @@ commandsdir="${scriptdir}/commands"
 configdir=".kelp"
 kelpfile="kelp.yaml"
 
-export stage="dev"
-export overlays="k8s/overlays"
-
+if [ -z "${KELP_STAGE}" ]; then
+    stage='base'
+    overlays=''
+else 
+    stage=${KELP_STAGE}
+    overlays='overlays/'
+fi
 export kubectl="kubectl"
-export kustomize="${kubectl} kustomize ${overlays}/${stage}"
+export kustomize="${kubectl} kustomize k8s/${overlays}${stage}"
+
 # By default run yq in docker to avoid the dependency
 # For faster results, set yq=yq in your environment if you installed yq locally
 export yq=${yq:-docker run -i --rm -v "${PWD}":/workdir mikefarah/yq}
