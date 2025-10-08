@@ -6,4 +6,4 @@ echo "yq = ${yq}"
 echo "app = ${app}"
 echo "namespace = ${namespace}"
 echo "image = ${image}"
-
+echo "registry = ${registry}"

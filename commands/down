@@ -1,2 +1,1 @@
-${kustomize} | ${kubectl} delete --selector delete!=persist -f - --ignore-not-found
-
+${kustomize} | ${kubectl} delete --selector kelp/reclaimPolicy!=Retain -f - --ignore-not-found

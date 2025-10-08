@@ -41,10 +41,14 @@ The following commands are available:
   <dd>Apply the k8s manifest.</dd>
   <dt>build</dt>
   <dd>Build the image.</dd>
+  <dt>clean</dt>
+  <dd>Delete the image.</dd>
   <dt>config</dt>
   <dd>Dump the config variables.</dd>
   <dt>delete</dt>
-  <dd>Remove all non persistent resources and images.</dd>
+  <dd>Delete all resources in the manifest.</dd>
+  <dt>down</dt>
+  <dd>Delete non persistent resources. Persistent resources are those marked with '.metadata.labels.reclaimPolicy: Retain'.</dd>
   <dt>login</dt>
   <dd>Login to the registry.</dd>
   <dt>push</dt>
@@ -54,10 +58,10 @@ The following commands are available:
   <dt>test</dt>
   <dd>Run tests.</dd>
   <dt>up</dt>
-  <dd>Apply, then test.</dd>
+  <dd>Run build, apply, then test.</dd>
 </dl>
 
-Persistent resources are defined by adding `.metadata.labels.delete: persist` in their manifest.
+Persistent resources are those marked with `.metadata.labels.kelp/reclaimPolicy: Retain`.
 
 ## Variables
 

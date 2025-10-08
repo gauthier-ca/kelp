@@ -25,7 +25,8 @@ configure_commands() {
     set -e
     export app=$(echo "${doc}" | ${yq} 'select(document_index == 0) | .metadata.name')
     export namespace=$(echo "${doc}" | ${yq} 'select(document_index == 0) | .metadata.namespace')
-    export image=$(echo "${doc}" | ${yq} 'select(document_index == 0) | .. | select(path | join(".") | test("\\.image$$"))' )
+    export image=$(echo "${doc}" | ${yq} 'select(document_index == 0) | .. | select(path | join(".") | test("\\.image$$"))')
+    export registry=$(echo "${image}" | cut -d'/' -f1)
 }
 
 execute_commands() {
