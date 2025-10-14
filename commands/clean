@@ -1,1 +1,5 @@
-docker rmi -f "${image}"
+if [[ -f Dockerfile ]]; then
+    if docker images |  grep "${registry}/${repository}" | grep "${tag}" >/dev/null; then
+        docker rmi -f "${image}"
+    fi
+fi

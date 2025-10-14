@@ -1,2 +1,7 @@
-	docker push ${image}
-    
+if [[ -f Dockerfile ]]; then
+    if docker images |  grep "${registry}/${repository}" | grep "${tag}" >/dev/null; then
+		execute_commands login
+        #docker build -t ${image} . --progress=plain --no-cache
+        docker push ${image}
+    fi
+fi

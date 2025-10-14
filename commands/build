@@ -1,5 +1,6 @@
-if [[ -f Dockerfile ]]
-then
-    #docker build -t ${image} . --progress=plain --no-cache
-    docker build -t ${image} .
+if [[ -f Dockerfile ]]; then
+    if ! docker images |  grep "${registry}/${repository}" | grep "${tag}" >/dev/null; then
+        #docker build -t ${image} . --progress=plain --no-cache
+        docker build -t ${image} .
+    fi
 fi
