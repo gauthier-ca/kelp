@@ -27,17 +27,16 @@ configure_commands() {
     export namespace=$(echo "${doc}" | ${yq} 'select(document_index == 0) | .metadata.namespace')
     export image=$(echo "${doc}" | ${yq} 'select(document_index == 0) | .. | select(path | join(".") | test("\\.image$$"))')
     export registry=$(echo "${image}" | cut -d'/' -f1)
+    export repository=$(echo ${image} | cut -d'/' -f2- | cut -d':' -f 1)
+    export tag=$(echo "${image}" | cut -d':' -f2)
 }
 
 execute_commands() {
-    for cmd in "$@"
-    do
-        if [[ -f "${configdir}/${cmd}" ]]
-        then 
+    for cmd in "$@"; do
+        if [[ -f "${configdir}/${cmd}" ]]; then 
             # If an override exists in the config dir use that
             source "${configdir}/${cmd}"
-        elif [[ -f "${commandsdir}/${cmd}" ]]
-        then
+        elif [[ -f "${commandsdir}/${cmd}" ]]; then
             # Otherwise use the default command from the kelp directory 
             source "${commandsdir}/${cmd}"
         else
@@ -49,18 +48,14 @@ execute_commands() {
 export -f execute_commands
 
 # If no arguments are provided run "build up"
-commands="${@:-build up}"
+commands="${@:-up}"
 
-if [[ -f "${configdir}/${kelpfile}" ]]
-then
+if [[ -f "${configdir}/${kelpfile}" ]]; then
     # Loop over all the yaml files in the config dir
     # This allows for custom module declarations in case kelp.yaml is generated
-    for configfile in ${configdir}/*.yaml
-    do
-        echo $configfile
+    for configfile in ${configdir}/*.yaml; do
         # Top level directory: process the resources from the kelpfile
-        for dir in $(cat ${configfile} | ${yq} '.resources[]')
-        do
+        for dir in $(cat ${configfile} | ${yq} '.resources[]'); do
             echo "$(tput bold)$(tput setaf 6)${dir}$(tput sgr0)"
             cd ${dir}
             configure_commands

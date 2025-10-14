@@ -1,2 +1,2 @@
-execute_commands apply test
+execute_commands build apply test
 
